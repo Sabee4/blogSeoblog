@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { signup } from '../../actions/auth';
+
 
 const SignupComponent = () => {
     const [values, setValues] = useState({
@@ -15,7 +17,32 @@ const SignupComponent = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-         console.table({ name, email, password, error, loading, message, showForm });
+        setValues({ ...values, loading: true, error: false });
+        const user = { name, email, password,error };
+       console.table(error,message);
+        
+        signup(user).
+        then(data => {
+         //   if(data.error!== null){
+           if (error===true) {  
+                setValues({ ...values, error: data.error, loading: false });
+            } else {
+                setValues({
+                    ...values,
+                    name: '',
+                    email: '',
+                    password: '',
+                    error: '',
+                    loading: false,
+                    message: message,
+                    showForm: false
+                });
+            }
+        });
+
+//*/
+
+        // console.table({ name, email, password, error, loading, message, showForm });
        
     };
 
